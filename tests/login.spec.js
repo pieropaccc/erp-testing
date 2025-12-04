@@ -11,6 +11,16 @@ test.describe('Login ERP', () => {
 
     const login = new LoginPage(page);
     await login.goto();
+
+    // Check if login page loaded
+    try {
+      await page.waitForSelector('input[id="email"]', { timeout: 10000 });
+      console.log('Login page loaded successfully');
+    } catch (e) {
+      console.log('Login page did not load:', e.message);
+      throw e;
+    }
+
     await login.login('test@example.com', 'password');
 
     await page.waitForURL('/dashboard', { timeout: 60000 });
